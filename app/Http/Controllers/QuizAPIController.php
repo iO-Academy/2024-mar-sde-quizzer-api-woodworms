@@ -4,29 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\isEmpty;
 
 class QuizAPIController extends Controller
 {
     function getQuizzes()
     {
-//        if (class_exists('Quiz')) {
+        try {
             $quizzes = Quiz::all();
-
-            if ($quizzes->isEmpty()) {
-                return response()->json([
-                    "message" => "No quizzes found"
-                ]);
-            }
             return response()->json([
                 'message' => 'Quizzes retrieved',
                 'data' => $quizzes
             ], 200);
-//        }
-//        else {
-//            return response()->json([
-//                'message' => 'Quizzes not found, please check database connection',
-//            ], 500);
-//        }
+        }
+        catch (\Exception) {
+            return response()->json([
+                'message' => 'Internal server error'
+            ], 500);
+        }
     }
 }
