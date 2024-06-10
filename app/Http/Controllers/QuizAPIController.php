@@ -24,4 +24,26 @@ class QuizAPIController extends Controller
             ], 500);
         }
     }
+    function addQuiz(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:128',
+            'description' => 'required|string|max:1000'
+        ]);
+
+        $quiz = new Quiz();
+        $quiz->name = $request->name;
+        $quiz->description = $request->description;
+
+        $result = $quiz->save();
+        if ($result) {
+            return response()->json([
+                'message' => 'Quiz created',
+            ],201);
+        } else {
+            return response()->json([
+                'message' => 'Quiz creation failed',
+            ], 500);
+        }
+    }
 }
