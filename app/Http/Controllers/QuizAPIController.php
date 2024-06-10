@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\isEmpty;
@@ -17,8 +18,7 @@ class QuizAPIController extends Controller
                 'message' => 'Quizzes retrieved',
                 'data' => $quizzes
             ], 200);
-        }
-        catch (\Exception) {
+        } catch (\Exception) {
             return response()->json([
                 'message' => 'Internal server error'
             ], 500);
