@@ -18,12 +18,13 @@ class QuizAPIController extends Controller
                 'message' => 'Quizzes retrieved',
                 'data' => $quizzes
             ], 200);
-        } catch (\Exception) {
+        } catch (Exception) {
             return response()->json([
                 'message' => 'Internal server error'
             ], 500);
         }
     }
+
     function addQuiz(Request $request)
     {
         $request->validate([
@@ -31,11 +32,17 @@ class QuizAPIController extends Controller
             'description' => 'required|string|max:1000'
         ]);
 
-        $quiz = new Quiz();
-        $quiz->name = $request->name;
-        $quiz->description = $request->description;
+        try {
+            $quiz = new Quiz();
+            $quiz->name = $request->name;
+            $quiz->description = $request->description;
+            $result = $quiz->save();
+        } catch (Exception) {
+            return response()->json([
+                'message' => 'Internal server error'
+            ], 500);
+        }
 
-        $result = $quiz->save();
         if ($result) {
             return response()->json([
                 'message' => 'Quiz created',
