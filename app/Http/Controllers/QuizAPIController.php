@@ -18,7 +18,7 @@ class QuizAPIController extends Controller
                 'message' => 'Quizzes retrieved',
                 'data' => $quizzes
             ], 200);
-        } catch (Exception) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Internal server error'
             ], 500);
@@ -37,20 +37,14 @@ class QuizAPIController extends Controller
             $quiz->name = $request->name;
             $quiz->description = $request->description;
             $result = $quiz->save();
-        } catch (Exception) {
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Internal server error'
+                'message' => 'Quiz creation failed'
             ], 500);
         }
 
-        if ($result) {
             return response()->json([
                 'message' => 'Quiz created',
             ],201);
-        } else {
-            return response()->json([
-                'message' => 'Quiz creation failed',
-            ], 500);
         }
-    }
 }
