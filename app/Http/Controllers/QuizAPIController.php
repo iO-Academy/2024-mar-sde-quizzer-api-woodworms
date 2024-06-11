@@ -36,15 +36,21 @@ class QuizAPIController extends Controller
             $quiz = new Quiz();
             $quiz->name = $request->name;
             $quiz->description = $request->description;
-            $quiz->save();
+            $result = $quiz->save();
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Quiz creation failed'
             ], 500);
         }
 
+        if ($result) {
             return response()->json([
                 'message' => 'Quiz created',
-            ],201);
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Quiz creation failed'
+            ], 500);
         }
+    }
 }
