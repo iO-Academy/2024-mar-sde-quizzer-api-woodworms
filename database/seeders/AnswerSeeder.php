@@ -14,12 +14,15 @@ class AnswerSeeder extends Seeder
      */
     public function run(): void
     {
-    for ($i = 1; $i <= 3; $i++) {
-        DB::table('answer')->insert([
-            'answer' => Str::random(10),
-            'feedback' => Str::random(20),
-            'correct' => rand(0,1),
-        ]);
+    for ($i = 1; $i <= 4; $i++) {
+        for ($j = 1; $j <= 5; $j++) {
+            DB::table('answers')->insert([
+                'answer' => Str::random(10),
+                'feedback' => Str::random(20),
+                'is_correct' => rand(0,1),
+                'question_id' => $i,
+            ]);
+        }
     }
 }
 }

@@ -36,23 +36,30 @@ class QuizAPIController extends Controller
             $quiz = new Quiz();
             $quiz->name = $request->name;
             $quiz->description = $request->description;
-            $quiz->save();
+            $result = $quiz->save();
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Quiz creation failed'
             ], 500);
         }
 
+        if ($result) {
             return response()->json([
                 'message' => 'Quiz created',
-            ],201);
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Quiz creation failed'
+            ], 500);
+        }
     }
 
     function singleQuiz(int $id)
     {
         try {
-            $quizzes = Quiz::find($id)
-                ->with('question', 'question.answer')->get();
+            $quizzes = Quiz::with(['questions' => ['answers'],])->find($id);
+//            $quizzes = Quiz::find($id)
+//                ->with('questions')->where('quiz_id', '=', $id)->get();
             return response()->json([
                 'message' => 'Quiz retrieved',
                 'data' => $quizzes
@@ -65,3 +72,5 @@ class QuizAPIController extends Controller
         }
     }
 }
+
+

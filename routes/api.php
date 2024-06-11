@@ -11,4 +11,4 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/quizzes', [QuizAPIController::class, 'getQuizzes']);
 Route::post('/quizzes', [QuizAPIController::class, 'addQuiz']);
-Route::get('/quizzes/{$id}', [QuizAPIController::class, 'singleQuiz']);
+Route::get('/quizzes/{id}', [QuizAPIController::class, 'singleQuiz']);
