@@ -14,7 +14,7 @@ use Tests\TestCase;
 class QuizTest extends TestCase
 {
     use DatabaseMigrations;
-    public function test_example(): void
+    public function test_getAllQuizzes_success(): void
     {
         Quiz::factory()->create();
         $response = $this->get('/api/quizzes');
