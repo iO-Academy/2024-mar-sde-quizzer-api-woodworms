@@ -665,7 +665,7 @@
                 "The quiz field is required."
             ],
             "answers": [
-                "The answers field is required."
+                "The answer field is required."
             ]
         }
     }

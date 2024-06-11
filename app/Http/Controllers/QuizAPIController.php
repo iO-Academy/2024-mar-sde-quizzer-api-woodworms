@@ -24,6 +24,7 @@ class QuizAPIController extends Controller
             ], 500);
         }
     }
+
     function addQuiz(Request $request)
     {
         $request->validate([
@@ -39,11 +40,28 @@ class QuizAPIController extends Controller
         if ($result) {
             return response()->json([
                 'message' => 'Quiz created',
-            ],201);
+            ], 201);
         } else {
             return response()->json([
                 'message' => 'Quiz creation failed',
             ], 500);
+        }
+    }
+
+    function singleQuiz(int $id)
+    {
+        try {
+            $quizzes = Quiz::find($id)
+                ->with('question', 'question.answer')->get();
+            return response()->json([
+                'message' => 'Quiz retrieved',
+                'data' => $quizzes
+            ], 200);
+        } catch (Exception) {
+            return response()->json([
+                'message' => 'Quiz not found'
+            ], 404);
+
         }
     }
 }
