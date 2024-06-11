@@ -27,7 +27,7 @@ class QuizTest extends TestCase
         });
     }
 
-    public function test_createTodo_success(): void
+    public function test_addQuiz_success(): void
     {
         $testData = ['name' => 'Test task', 'description' => 'Test, test'];
 
@@ -40,7 +40,7 @@ class QuizTest extends TestCase
         $this->assertDatabaseHas('quizzes', $testData);
     }
 
-    public function test_createTodo_failureNameRequired(): void
+    public function test_addQuiz_failureNameRequired(): void
     {
         $testData = ['description' => 'Test, test'];
 
@@ -54,7 +54,7 @@ class QuizTest extends TestCase
         });
     }
 
-    public function test_createTodo_failureDescriptionRequired(): void
+    public function test_addQuiz_failureDescriptionRequired(): void
     {
         $testData = ['name' => 'Test'];
 
@@ -68,7 +68,7 @@ class QuizTest extends TestCase
             });
     }
 
-    public function test_createTodo_malformedName(): void
+    public function test_addQuiz_malformedName(): void
     {
         $testData = ['name' => 10, 'description' => 'Test'];
 
@@ -82,7 +82,7 @@ class QuizTest extends TestCase
             });
     }
 
-    public function test_createTodo_malformedDescription(): void
+    public function test_addQuiz_malformedDescription(): void
     {
         $testData = ['name' => 'Test', 'description' => 10];
 
@@ -95,5 +95,4 @@ class QuizTest extends TestCase
                     });
             });
     }
-
 }
