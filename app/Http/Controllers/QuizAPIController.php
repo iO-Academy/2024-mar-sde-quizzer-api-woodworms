@@ -53,12 +53,19 @@ class QuizAPIController extends Controller
     function singleQuiz(int $id)
     {
         try {
-            $quizzes = Quiz::with(['questions' => ['answers'],])->find($id);
+            $quiz = Quiz::with(['questions' => ['answers'],])->find($id);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Internal server error'
+            ], 500);
+        }
+
+        if (!is_null($quiz)) {
             return response()->json([
                 'message' => 'Quiz retrieved',
-                'data' => $quizzes
+                'data' => $quiz
             ], 200);
-        } catch (Exception $e) {
+        } else {
             return response()->json([
                 'message' => 'Quiz not found'
             ], 404);
