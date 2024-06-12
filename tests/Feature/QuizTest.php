@@ -111,4 +111,14 @@ class QuizTest extends TestCase
             });
         });
     }
+
+    public function test_getSingleQuiz_failure(): void
+    {
+        Answer::factory()->create();
+        $response = $this->get('/api/quizzes/500');
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $json) {
+                $json->hasAll(['message']);
+            });
+    }
 }

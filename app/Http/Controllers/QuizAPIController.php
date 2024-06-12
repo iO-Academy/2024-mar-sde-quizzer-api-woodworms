@@ -55,7 +55,9 @@ class QuizAPIController extends Controller
         try {
             $quiz = Quiz::with(['questions' => ['answers'],])->find($id);
         } catch (Exception $e) {
-            $quiz = null;
+            return response()->json([
+                'message' => 'Internal server error'
+            ], 500);
         }
 
         if (!is_null($quiz)) {
