@@ -103,9 +103,9 @@ class QuizTest extends TestCase
             ->has('data', function (AssertableJson $json) {
                 $json->hasAll('id', 'name', 'description', 'questions')
                 ->has('questions', 1,  function (AssertableJson $json) {
-                    $json->hasAll('id', 'question', 'hint', 'points', 'quiz_id', 'answers')
+                    $json->hasAll('id', 'question', 'hint', 'points', 'answers')
                     ->has('answers', 1, function (AssertableJson $json) {
-                        $json->hasAll('id', 'answer', 'feedback', 'correct', 'question_id');
+                        $json->hasAll('id', 'answer', 'feedback', 'correct');
                     });
                 });
             });
