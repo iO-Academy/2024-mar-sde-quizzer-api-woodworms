@@ -19,8 +19,6 @@ class QuizFactory extends Factory
         return [
             'name' => $this->faker->text(128),
             'description' => $this->faker->text(1000),
-            'created_at' => now(),
-            'updated_at' => now()
         ];
     }
 }

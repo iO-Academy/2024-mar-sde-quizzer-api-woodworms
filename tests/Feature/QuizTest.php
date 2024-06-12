@@ -2,12 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\QuizAPIController;
+use App\Models\Answer;
 use App\Models\Quiz;
-use Database\Factories\QuizFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -46,10 +43,10 @@ class QuizTest extends TestCase
 
         $response = $this->postJson('/api/quizzes', $testData);
         $response->assertStatus(422)
-            ->assertJson(function(AssertableJson $json) {
-                $json->hasAll(['message', 'errors'])
-                    ->has('errors', function (AssertableJson $json) {
-                        $json->hasAll( 'name');
+        ->assertJson(function(AssertableJson $json) {
+            $json->hasAll(['message', 'errors'])
+            ->has('errors', function (AssertableJson $json) {
+                $json->hasAll( 'name');
             });
         });
     }
@@ -60,12 +57,12 @@ class QuizTest extends TestCase
 
         $response = $this->postJson('/api/quizzes', $testData);
         $response->assertStatus(422)
-            ->assertJson(function(AssertableJson $json) {
-                $json->hasAll(['message', 'errors'])
-                    ->has('errors', function (AssertableJson $json) {
-                        $json->hasAll( 'description');
-                    });
+        ->assertJson(function(AssertableJson $json) {
+            $json->hasAll(['message', 'errors'])
+            ->has('errors', function (AssertableJson $json) {
+                $json->hasAll( 'description');
             });
+        });
     }
 
     public function test_addQuiz_malformedName(): void
@@ -74,12 +71,12 @@ class QuizTest extends TestCase
 
         $response = $this->postJson('/api/quizzes', $testData);
         $response->assertStatus(422)
-            ->assertJson(function(AssertableJson $json) {
-                $json->hasAll(['message', 'errors'])
-                    ->has('errors', function (AssertableJson $json) {
-                        $json->hasAll( 'name');
-                    });
+        ->assertJson(function(AssertableJson $json) {
+            $json->hasAll(['message', 'errors'])
+            ->has('errors', function (AssertableJson $json) {
+                $json->hasAll( 'name');
             });
+        });
     }
 
     public function test_addQuiz_malformedDescription(): void
@@ -88,11 +85,40 @@ class QuizTest extends TestCase
 
         $response = $this->postJson('/api/quizzes', $testData);
         $response->assertStatus(422)
-            ->assertJson(function(AssertableJson $json) {
-                $json->hasAll(['message', 'errors'])
-                    ->has('errors', function (AssertableJson $json) {
-                        $json->hasAll( 'description');
+        ->assertJson(function(AssertableJson $json) {
+            $json->hasAll(['message', 'errors'])
+            ->has('errors', function (AssertableJson $json) {
+                $json->hasAll( 'description');
+            });
+        });
+    }
+
+    public function test_getSingleQuiz_success(): void
+    {
+        Answer::factory()->count(5)->create();
+        $response = $this->get('/api/quizzes/1');
+        $response->assertStatus(200)
+        ->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'data'])
+            ->has('data', function (AssertableJson $json) {
+                $json->hasAll('id', 'name', 'description', 'questions')
+                ->has('questions', 1,  function (AssertableJson $json) {
+                    $json->hasAll('id', 'question', 'hint', 'points', 'answers')
+                    ->has('answers', 1, function (AssertableJson $json) {
+                        $json->hasAll('id', 'answer', 'feedback', 'correct');
                     });
+                });
+            });
+        });
+    }
+
+    public function test_getSingleQuiz_failure(): void
+    {
+        Answer::factory()->create();
+        $response = $this->get('/api/quizzes/500');
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $json) {
+                $json->hasAll(['message']);
             });
     }
 }
