@@ -36,9 +36,7 @@ class QuizAPIController extends Controller
             $quiz->description = $request->description;
             $result = $quiz->save();
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Quiz creation failed'
-            ], 500);
+            $result = false;
         }
 
         if ($result) {
@@ -60,12 +58,10 @@ class QuizAPIController extends Controller
                 'message' => 'Quiz retrieved',
                 'data' => $quizzes
             ], 200);
-        } catch (Exception) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Quiz not found'
             ], 404);
         }
     }
 }
-
-
