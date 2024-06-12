@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Quiz;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use function PHPUnit\Framework\isEmpty;
 
 class QuizAPIController extends Controller
 {
@@ -58,8 +56,6 @@ class QuizAPIController extends Controller
     {
         try {
             $quizzes = Quiz::with(['questions' => ['answers'],])->find($id);
-//            $quizzes = Quiz::find($id)
-//                ->with('questions')->where('quiz_id', '=', $id)->get();
             return response()->json([
                 'message' => 'Quiz retrieved',
                 'data' => $quizzes
@@ -68,7 +64,6 @@ class QuizAPIController extends Controller
             return response()->json([
                 'message' => 'Quiz not found'
             ], 404);
-
         }
     }
 }

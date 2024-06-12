@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Answer extends Model
 {
     use HasFactory;
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function question():BelongsTo
     {
         return $this->belongsTo(Question::class);
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class AnswerFactory extends Factory
             'answer' => $this->faker->sentence(),
             'is_correct' => $this->faker->boolean(),
             'feedback' => $this->faker->sentence(),
+            'question_id' => Question::factory()
         ];
     }
 }

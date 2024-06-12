@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,8 +20,6 @@ class QuizFactory extends Factory
         return [
             'name' => $this->faker->text(128),
             'description' => $this->faker->text(1000),
-            'created_at' => now(),
-            'updated_at' => now()
         ];
     }
 }

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->text('question');
             $table->text('hint')->nullable();
             $table->integer('points')->default(1);
-            $table->foreignId('quiz_id')->constrained('quizzes');
+            $table->foreignId('quiz_id');
+            $table->timestamps();
         });
     }
 

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Question extends Model
 {
     use HasFactory;
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function quiz(): BelongsTo
     {

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Quiz;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +17,12 @@ class QuestionFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'question' => $this->faker->sentence(),
             'hint' => $this->faker->paragraph(),
             'points' => $this->faker->numberBetween(1, 10),
-            ];
+            'quiz_id' => Quiz::factory()
+        ];
     }
 }

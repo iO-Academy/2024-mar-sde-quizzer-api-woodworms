@@ -14,13 +14,13 @@ class QuestionSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             DB::table('questions')->insert([
                 'question' => Str::random(10),
                 'hint' => Str::random(20),
                 'points' => rand(1, 10),
                 'quiz_id' => $i,
             ]);
-            }
+        }
     }
 }
