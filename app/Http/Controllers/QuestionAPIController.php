@@ -7,7 +7,6 @@ use App\Models\Quiz;
 use Exception;
 use Illuminate\Http\Request;
 
-
 class QuestionAPIController extends Controller
 {
     function addQuestion(Request $request)
@@ -15,17 +14,22 @@ class QuestionAPIController extends Controller
         $request->validate([
             'question' => 'required|string|max:128',
             'points' => 'required|integer|max:10',
-           'quiz_id' => 'required|integer|exists:quizzes,id',
+            'quiz_id' => 'required|integer|exists:quizzes,id',
             'hint' => 'string|max:128',
         ]);
 
         try {
+            $quiz = Quiz::find($request->quiz_id);
             $question = new Question();
             $question->question = $request->question;
             $question->points = $request->points;
             $question->quiz_id = $request->quiz_id;
-            if ($request->hint){$question->hint = $request->hint;}
-            $result = $question->save();
+
+            if ($request->hint) {
+                $question->hint = $request->hint;
+            }
+
+            $result = $quiz->questions()->save($question);
         } catch (Exception $e) {
             $result = false;
         }
