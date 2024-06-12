@@ -3,31 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Question;
 use Exception;
 use Illuminate\Http\Request;
 
 
 class AnswerAPIController extends Controller
 {
-    function addAnswer($question_id, Request $request)
+    function addAnswer(Request $request)
     {
-//        $id = Answer::with(['questions' => ['answers'],])->find($question_id);
-
         $request->validate([
             'answer' => 'required|string|max:500',
-//            'feedback' => 'required|string|max:1000'
+            'feedback' => 'required|string|max:1000',
+            'question_id' => 'required|integer|exists:questions,id',
+            'correct' => 'boolean',
         ]);
 
         try {
+            $question = Question::find($request->question_id);
             $answer = new Answer();
-            $answer->question_id = $question_id;
             $answer->answer = $request->answer;
-//            $answer->feedback = $request->feedback;
+            $answer->feedback = $request->feedback;
+            $answer->question_id = $request->question_id;
             $answer->correct = $request->correct;
-//            $answer->updated_at = $request->updated_at;
-//            $answer->created_at = $request->created_up;
 
-            $result = $answer->save();
+            $result = $question->answers()->save($answer);
         } catch (Exception $e) {
             $result = false;
         }
@@ -43,4 +43,3 @@ class AnswerAPIController extends Controller
         }
     }
 }
-
