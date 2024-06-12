@@ -240,4 +240,34 @@ class QuizTest extends TestCase
             });
         });
     }
+
+    public function test_addQuestion_zeroPoints(): void
+    {
+        Quiz::factory()->create();
+        $testData = ['question' => 'Question Test', 'quiz_id' => 1, 'points' => 0, 'hint' => 'hello'];
+
+        $response = $this->postJson('/api/questions', $testData);
+        $response->assertStatus(422)
+        ->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'errors'])
+            ->has('errors', function (AssertableJson $json) {
+                $json->hasAll('points');
+            });
+        });
+    }
+
+    public function test_addQuestion_negativePoints(): void
+    {
+        Quiz::factory()->create();
+        $testData = ['question' => 'Question Test', 'quiz_id' => 1, 'points' => -5, 'hint' => 'hello'];
+
+        $response = $this->postJson('/api/questions', $testData);
+        $response->assertStatus(422)
+        ->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'errors'])
+            ->has('errors', function (AssertableJson $json) {
+                $json->hasAll('points');
+            });
+        });
+    }
 }
