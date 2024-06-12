@@ -13,7 +13,7 @@ class QuestionAPIController extends Controller
     {
         $request->validate([
             'question' => 'required|string|max:128',
-            'points' => 'required|integer|max:10',
+            'points' => 'required|integer|min:1',
             'quiz_id' => 'required|integer|exists:quizzes,id',
             'hint' => 'string|max:128',
         ]);
@@ -24,10 +24,7 @@ class QuestionAPIController extends Controller
             $question->question = $request->question;
             $question->points = $request->points;
             $question->quiz_id = $request->quiz_id;
-
-            if ($request->hint) {
-                $question->hint = $request->hint;
-            }
+            $question->hint = $request->hint;
 
             $result = $quiz->questions()->save($question);
         } catch (Exception $e) {
