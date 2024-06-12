@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('answer');
             $table->text('feedback')->nullable();
-            $table->boolean('is_correct');
+            $table->boolean('correct');
             $table->foreignId('question_id');
             $table->timestamps();
         });

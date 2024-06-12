@@ -19,7 +19,7 @@ class AnswerFactory extends Factory
     {
         return [
             'answer' => $this->faker->sentence(),
-            'is_correct' => $this->faker->boolean(),
+            'correct' => $this->faker->boolean(),
             'feedback' => $this->faker->sentence(),
             'question_id' => Question::factory()
         ];

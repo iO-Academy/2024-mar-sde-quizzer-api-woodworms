@@ -16,7 +16,7 @@ class AnswerSeeder extends Seeder
                 DB::table('answers')->insert([
                     'answer' => Str::random(10),
                     'feedback' => Str::random(20),
-                    'is_correct' => rand(0,1),
+                    'correct' => rand(0,1),
                     'question_id' => $i,
                     'created_at' => now(),
                     'updated_at' => now(),
