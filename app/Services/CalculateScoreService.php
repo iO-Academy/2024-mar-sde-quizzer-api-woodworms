@@ -50,8 +50,24 @@ class CalculateScoreService
         $answerArray = [];
 
         foreach ($questions as $question) {
-            $answerArray[] = Answer::where('question_id', '=', $question->id)->get();
+            $correctAnswerArray[] = Answer::where('question_id', '=', $question->id)
+                ->where('correct', '=', 1)->select('id')->get();
 }
+
+        foreach ($answers as $answer) {
+            $submittedAnswerIds[] = $answers->answer;
+}
+
+        $correctCount = 0;
+
+        for ($i = 0; $i < count($correctAnswerArray); $i++) {
+            for ($j = 0; $j < count($submittedAnswerIds); $j++) {
+                if ($correctAnswerArray[$i] === $submittedAnswerIds[$j]) {
+                    $correctCount++;
+                }
+            }
+        }
+
 
         $questionCount = 0;
         $pointCount = 0;
@@ -61,7 +77,7 @@ class CalculateScoreService
             $pointCount += $question->points;
         }
 
-        return $answerArray;
+        return $submittedAnswerIds;
     }
 
 }
