@@ -13,8 +13,8 @@ class AnswerAPIController extends Controller
     function addAnswer(Request $request)
     {
         $request->validate([
-            'answer' => 'required|string|max:500',
-            'feedback' => 'string|max:1000',
+            'answer' => 'required|string',
+            'feedback' => 'string',
             'question_id' => 'required|integer|exists:questions,id',
             'correct' => 'required|boolean',
         ]);

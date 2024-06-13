@@ -26,8 +26,8 @@ class QuizAPIController extends Controller
     function addQuiz(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:128',
-            'description' => 'required|string|max:1000'
+            'name' => 'required|string',
+            'description' => 'required|string'
         ]);
 
         try {
