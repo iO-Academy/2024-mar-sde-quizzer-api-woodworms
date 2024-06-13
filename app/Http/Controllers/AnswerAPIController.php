@@ -14,9 +14,9 @@ class AnswerAPIController extends Controller
     {
         $request->validate([
             'answer' => 'required|string|max:500',
-            'feedback' => 'required|string|max:1000',
+            'feedback' => 'string|max:1000',
             'question_id' => 'required|integer|exists:questions,id',
-            'correct' => 'boolean',
+            'correct' => 'required|boolean',
         ]);
 
         try {
