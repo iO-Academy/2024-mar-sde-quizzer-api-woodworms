@@ -301,7 +301,7 @@ class QuizTest extends TestCase
         $this->assertDatabaseHas('answers', $testData);
     }
 
-    public function test_addAnswer_failureAnswerRequired(): void
+    public function test_addAnswer_failure_answerRequired(): void
     {
         Question::factory()->create();
         $testData = ['correct' => false, 'question_id' => 1,];
@@ -313,7 +313,7 @@ class QuizTest extends TestCase
             });
     }
 
-    public function test_addAnswer_failure_Correct_Required(): void
+    public function test_addAnswer_failure_correctRequired(): void
     {
         Question::factory()->create();
         $testData = ['answer' => 'testAnswer', 'question_id' => 1,];
@@ -325,7 +325,7 @@ class QuizTest extends TestCase
             });
     }
 
-    public function test_addAnswer_Id_QuestionRequired(): void
+    public function test_addAnswer_questionIdRequired(): void
     {
         Question::factory()->create();
         $testData = ['answer' => 'testAnswer', 'correct' => false];
@@ -337,7 +337,7 @@ class QuizTest extends TestCase
             });
     }
 
-    public function test_addAnswer_malformedAnswer(): void
+    public function test_addAnswer_malformed_answer(): void
     {
         Question::factory()->create();
         $testData = ['answer' => 2, 'correct' => false, 'question_id' => 1];
@@ -367,7 +367,7 @@ class QuizTest extends TestCase
             });
     }
 
-    public function test_addAnswer_malformed_Question_ID(): void
+    public function test_addAnswer_malformed_QuestionId(): void
     {
         Question::factory()->create();
         $testData = ['answer' => 'test_answer', 'correct' => false, 'question_id' => 'high'];
