@@ -46,28 +46,38 @@ class CalculateScoreService
 
     static function calculateScore($quizId, $answers)
     {
-        $questions = Question::where('quiz_id', '=', $quizId)->get();
+        $questions = Question::with('answers')->where('quiz_id', '=', $quizId)->get();
         $answerArray = [];
 
         foreach ($questions as $question) {
-            $correctAnswerArray[] = Answer::where('question_id', '=', $question->id)
-                ->where('correct', '=', 1)->select('id')->get();
-}
+            $answerArray[] = Answer::where('question_id', '=', $question->id)->get();
+                //->where('correct', '=', 1)->select('id')->get();
 
-        foreach ($answers as $answer) {
-            $submittedAnswerIds[] = $answers->answer;
-}
+            foreach ($answerArray as $answer) {
+                if ($answers->question_id === $question->id) {
+                    $p = $questions->answers->id;
+                }
+            }
+
+        }
 
         $correctCount = 0;
 
-        for ($i = 0; $i < count($correctAnswerArray); $i++) {
-            for ($j = 0; $j < count($submittedAnswerIds); $j++) {
-                if ($correctAnswerArray[$i] === $submittedAnswerIds[$j]) {
-                    $correctCount++;
+//        for ($i = 0; $i < count($correctAnswerArray); $i++) {
+//            for ($j = 0; $j < count($submittedAnswerIds); $j++) {
+//                if ($correctAnswerArray[$i] === $submittedAnswerIds[$j]) {
+//                    $correctCount++;
+//                }
+//            }
+//        }
+
+        for ($i = 0; $i < count($questions); $i++) {
+            for ($j = 0; $j < count($answerArray); $j++) {
+                if ($answerArray[$j]->question_id === $questions[$i]->id) {
+                    $relevantAnswerArray[] = $answerArray[$j];
                 }
             }
         }
-
 
         $questionCount = 0;
         $pointCount = 0;
@@ -77,7 +87,7 @@ class CalculateScoreService
             $pointCount += $question->points;
         }
 
-        return $submittedAnswerIds;
+        return $relevantAnswerArray;
     }
 
 }
