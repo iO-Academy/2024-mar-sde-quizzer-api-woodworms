@@ -16,3 +16,4 @@ Route::post('/quizzes', [QuizAPIController::class, 'addQuiz']);
 Route::get('/quizzes/{id}', [QuizAPIController::class, 'singleQuiz']);
 Route::post('/answers', [AnswerAPIController::class, 'addAnswer']);
 Route::post('/questions', [QuestionAPIController::class, 'addQuestion']);
+Route::post('/scores', [QuizAPIController::class, 'calculateScore']);

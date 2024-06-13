@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Services\CalculateScoreService;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -70,5 +71,20 @@ class QuizAPIController extends Controller
                 'message' => 'Quiz not found'
             ], 404);
         }
+    }
+
+    function calculateScore(Request $request) {
+
+        try {
+            CalculateScoreService::calculateScore($request);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'misc error'
+            ], );
+        }
+
+        return response()->json([
+            'message' => 'score calculated',
+        ]);
     }
 }
