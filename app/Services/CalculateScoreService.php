@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Quiz;
 
 class CalculateScoreService
 {
@@ -42,10 +44,24 @@ class CalculateScoreService
      * And we check the ones with 'correct = 0' don't have a response
      */
 
-    static function calculateScore($request)
+    static function calculateScore($quizId, $answers)
     {
-        $questions = Question::all()->where($request->quiz = 'quiz_id');
-        var_dump($questions);
+        $questions = Question::where('quiz_id', '=', $quizId)->get();
+        $answerArray = [];
+
+        foreach ($questions as $question) {
+            $answerArray[] = Answer::where('question_id', '=', $question->id)->get();
+}
+
+        $questionCount = 0;
+        $pointCount = 0;
+
+        foreach ($questions as $question) {
+            $questionCount++;
+            $pointCount += $question->points;
+        }
+
+        return $answerArray;
     }
 
 }

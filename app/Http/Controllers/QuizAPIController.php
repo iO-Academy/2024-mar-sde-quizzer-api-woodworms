@@ -76,7 +76,7 @@ class QuizAPIController extends Controller
     function calculateScore(Request $request) {
 
         try {
-            CalculateScoreService::calculateScore($request);
+            $results = CalculateScoreService::calculateScore($request->quiz, $request->answers);
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'misc error'
@@ -84,7 +84,8 @@ class QuizAPIController extends Controller
         }
 
         return response()->json([
-            'message' => 'score calculated',
-        ]);
+            'message' => 'Score',
+            'data' => $results
+        ], 200);
     }
 }
