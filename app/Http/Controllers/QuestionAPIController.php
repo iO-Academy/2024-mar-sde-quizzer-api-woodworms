@@ -12,10 +12,10 @@ class QuestionAPIController extends Controller
     function addQuestion(Request $request)
     {
         $request->validate([
-            'question' => 'required|string|max:128',
+            'question' => 'required|string',
             'points' => 'required|integer|min:1',
             'quiz_id' => 'required|integer|exists:quizzes,id',
-            'hint' => 'string|max:128',
+            'hint' => 'string',
         ]);
 
         try {
